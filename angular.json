@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "Lwo-test-json"
+    }
+  },
+  "defaultProject": "Lwo-test-json",
+  "cli": {
+    "analytics": false
+  }
 }
