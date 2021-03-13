@@ -1,21 +1,23 @@
-<table class="table">
-  <thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">Общее количество</th>
-    <th scope="col">Общее количество мужчни</th>
-    <th scope="col">Общее количество женщин</th>
-    <th scope="col">Возраст: от "0-17 лет"</th>
-    <th scope="col">Возраст: от "18-25 лет"</th>
-    <th scope="col">Возраст: от "26-55 лет"</th>
-    <th scope="col">Возраст: от "55-60 лет"</th>
-    <th scope="col">Возраст: от "60 лет"</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let data of tableData">
-    <th scope="row">{{data.year}}</th>
-    <td *ngFor="let value of data.values">{{value.total}}</td>
-  </tr>
-  </tbody>
-</table>
+<div *ngFor="let dimension of dimensions">
+  <div>{{dimension.name.lang_ru}}</div>
+  <span *ngIf="dimension.items">
+        <span *ngFor="let item of dimension.items">
+          <div>{{item.name.lang_ru}}</div>
+        </span>
+      </span>
+</div>
+
+
+<div fxLayout="row" class="parent">
+  <div style="border: 1px solid black" fxFlex="{{100 / dimensions.length}}" *ngFor="let dimension of dimensions">
+    {{dimension.name.lang_ru}}
+    <div fxLayout="row">
+      <div *ngFor="let item of dimension.items"  fxFlex="100" fxLayoutAlign="center center">
+        <div *ngFor="let child of item.children" fxFlex="{{100 / item.children.length}}" fxLayoutAlign="center center">
+          {{child.name.lang_ru}}
+        </div>
+    </div>
+  </div>
+
+</div>
+</div>
