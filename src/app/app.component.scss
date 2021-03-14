@@ -1,36 +1,55 @@
-.tbl {
+//@mixin alignmentFlexbox {
+//  display: flex;
+//  padding: 5px 5px;
+//}
+//@mixin sizeRowAndCol() {
+//  width: 120px;
+//  display: flex;
+//  justify-content: center;
+//}
+//
+//.table {
+//  .header {
+//    @include alignmentFlexbox;
+//    background-color: aliceblue;
+//    .col {
+//      @include sizeRowAndCol();
+//    }
+//  }
+//  .row {
+//    @include alignmentFlexbox;
+//    .year, .value {
+//      @include sizeRowAndCol();
+//    }
+//    :nth-child(even) {
+//      background-color: bisque;
+//    }
+//    :nth-child(odd) {
+//      background-color: azure;
+//    }
+//  }
+//}
+.data {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 20px;
+
+  .inner {
+    display: flex;
+  }
 }
-.row {
+
+.table {
+padding: 20px 20px;
   display: flex;
-  min-height: 50px;
-}
-.cell {
-  flex: 4;
-  border: 1px solid red;
-}
-.cell:nth-child(1) {
-  flex: 1;
-}
-.cell:nth-child(2) {
-  flex: 2;
-}
-.cell.span4-5 {
-  flex: 8 24px;                    /*  col 4,5 flex-grow/border/padding  */
-}
-.cell.span3-4 {
-  flex: 8 24px;                    /*  col 3,4 flex-grow/border/padding  */
-}
-.cell.span3-5 {
-  flex: 12 36px;                   /*  col 3,4,5 flex-grow/border/padding  */
-}
-.row:first-child .cell {
-  display: flex;
-  justify-content: center;         /*  center horiz. */
-  align-items: center;             /*  center vert. */
-}
-.row .cell {
-  padding: 5px;
-  box-sizing: border-box;
+  justify-content: space-between;
+ .col-inner {
+   display: flex;
+   justify-content: space-between;
+
+   .col-inner-name {
+     margin-right: 5px;
+   }
+ }
+
 }

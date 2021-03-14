@@ -1,23 +1,26 @@
-<div *ngFor="let dimension of dimensions">
-  <div>{{dimension.name.lang_ru}}</div>
-  <span *ngIf="dimension.items">
-        <span *ngFor="let item of dimension.items">
-          <div>{{item.name.lang_ru}}</div>
-        </span>
-      </span>
-</div>
-
-
-<div fxLayout="row" class="parent">
-  <div style="border: 1px solid black" fxFlex="{{100 / dimensions.length}}" *ngFor="let dimension of dimensions">
-    {{dimension.name.lang_ru}}
-    <div fxLayout="row">
-      <div *ngFor="let item of dimension.items"  fxFlex="100" fxLayoutAlign="center center">
-        <div *ngFor="let child of item.children" fxFlex="{{100 / item.children.length}}" fxLayoutAlign="center center">
-          {{child.name.lang_ru}}
-        </div>
+<div class="table">
+  <div class="year">Год</div>
+  <div class="table__header" *ngFor="let value of abr">
+    <div class="col">
+      <div class="col-name">
+        {{value.name}}
+      </div>
     </div>
   </div>
 
 </div>
+
+
+<div class="data" *ngFor="let data of dataSet">
+  {{data.date}}
+
+  <div class="row" *ngFor="let value of data.value">
+
+    <div class="inner">
+      <div class="abriviature">
+        {{value.total}}
+        {{value.name}}
+      </div>
+    </div>
+  </div>
 </div>
