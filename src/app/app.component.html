@@ -1,21 +1,26 @@
-<table class="table">
-  <thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">Общее количество</th>
-    <th scope="col">Общее количество мужчни</th>
-    <th scope="col">Общее количество женщин</th>
-    <th scope="col">Возраст: от "0-17 лет"</th>
-    <th scope="col">Возраст: от "18-25 лет"</th>
-    <th scope="col">Возраст: от "26-55 лет"</th>
-    <th scope="col">Возраст: от "55-60 лет"</th>
-    <th scope="col">Возраст: от "60 лет"</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let data of tableData">
-    <th scope="row">{{data.year}}</th>
-    <td *ngFor="let value of data.values">{{value.total}}</td>
-  </tr>
-  </tbody>
-</table>
+<div class="table">
+  <div class="year">Год</div>
+  <div class="table__header" *ngFor="let value of abr">
+    <div class="col">
+      <div class="col-name">
+        {{value.name}}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="data" *ngFor="let data of dataSet">
+  {{data.date}}
+
+  <div class="row" *ngFor="let value of data.value">
+
+    <div class="inner">
+      <div class="abriviature">
+        {{value.total}}
+        {{value.name}}
+      </div>
+    </div>
+  </div>
+</div>

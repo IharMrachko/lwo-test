@@ -1,0 +1,55 @@
+//@mixin alignmentFlexbox {
+//  display: flex;
+//  padding: 5px 5px;
+//}
+//@mixin sizeRowAndCol() {
+//  width: 120px;
+//  display: flex;
+//  justify-content: center;
+//}
+//
+//.table {
+//  .header {
+//    @include alignmentFlexbox;
+//    background-color: aliceblue;
+//    .col {
+//      @include sizeRowAndCol();
+//    }
+//  }
+//  .row {
+//    @include alignmentFlexbox;
+//    .year, .value {
+//      @include sizeRowAndCol();
+//    }
+//    :nth-child(even) {
+//      background-color: bisque;
+//    }
+//    :nth-child(odd) {
+//      background-color: azure;
+//    }
+//  }
+//}
+.data {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 20px;
+
+  .inner {
+    display: flex;
+  }
+}
+
+.table {
+padding: 20px 20px;
+  display: flex;
+  justify-content: space-between;
+ .col-inner {
+   display: flex;
+   justify-content: space-between;
+
+   .col-inner-name {
+     margin-right: 5px;
+   }
+ }
+
+}

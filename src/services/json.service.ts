@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {TableData} from '../app/models/TableData';
+import {Structure} from "../app/models/structure";
 
 @Injectable({
   providedIn: 'root',
@@ -10,31 +11,6 @@ import {TableData} from '../app/models/TableData';
 export class JsonService {
   constructor(private http: HttpClient) {
   }
-
-  public getStructure(): Observable<any> {
-    return this.http.get('http://localhost:3000/structure')
-      .pipe(
-        map(it => it['dimensions'])
-      );
-  }
-
-  public getDataset(): Observable<TableData[]> {
-    return this.http.get<TableData[]>('http://localhost:3000/dataset')
-      .pipe(
-        map(it => JsonService.convertResponse(it)),
-        map(it => JsonService.prepareTableData(it, 'date')),
-      );
-  }
-
-  private groupBy(arr, key) {
-    //currentValue например: {date: "2013", value: "T60", total: "0.9"}
-    //key поле date
-    return arr.reduce((element, currentValue) => {
-      (element[currentValue[key]] = (element[currentValue[key]] || [])).push(currentValue); // меняем ключ на date
-      return element;
-    }, {});
-  };
-
 
   private static convertResponse(response: any): any[] {
     return Object.entries(response).map(([key, value]) => {
@@ -44,11 +20,11 @@ export class JsonService {
   }
 
   private static prepareTableData(list, key) {
-   let groupedValue = JsonService.groupByKey(list, key);
+    let groupedValue = JsonService.groupByKey(list, key);
     return Array.from(groupedValue).map(([key, value]) => new TableData(key, value as any[]));
   }
 
-  private static  groupByKey(array, key){
+  private static groupByKey(array, key) {
     const map = new Map();
     array.forEach((item) => {
       const value = item[key];
@@ -60,5 +36,43 @@ export class JsonService {
       }
     });
     return map;
+  }
+
+  public getStructure(): Observable<Structure> {
+    return this.http.get<Structure>('http://localhost:3000/structure');
+  }
+
+  public getDataset(): Observable<any> {
+    return this.http.get<any>('http://localhost:3000/dataset').pipe(
+      map(it => this.prepareData(it))
+    );
+  }
+
+  private groupBy(arr, key) {
+    //currentValue например: {date: "2013", value: "T60", total: "0.9"}
+    //key поле date
+    return arr.reduce((element, currentValue) => {
+      (element[currentValue[key]] = (element[currentValue[key]] || [])).push(currentValue); // меняем ключ на date
+      return element;
+    }, {});
+  };
+
+  private prepareData(dataset: any) {
+    let preparedData = new Map();
+
+    Object.entries(dataset).map(([field, value]) => {
+      let fieldValues = field.split(':')
+      let year = fieldValues.shift()
+      let code = ([...new Set(fieldValues)] || []).join('')
+      let innerMap = preparedData.get(year);
+      if (!innerMap) {
+        preparedData.set(year, new Map().set(code, value));
+      } else {
+        innerMap.set(code, value)
+      }
+    })
+
+    // preparedData Map(year, Map(code, value)). конвертируем в объект (можно оставить и мапой)
+    return Array.from(preparedData).reduce((main, [key, value]) => ({...main, [key]: Object.fromEntries(value)}), {})
   }
 }
