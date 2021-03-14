@@ -43,7 +43,9 @@ export class JsonService {
   }
 
   public getDataset(): Observable<any> {
-    return this.http.get<any>('http://localhost:3000/dataset');
+    return this.http.get<any>('http://localhost:3000/dataset').pipe(
+      map(it => this.prepareData(it))
+    );
   }
 
   private groupBy(arr, key) {
@@ -54,4 +56,23 @@ export class JsonService {
       return element;
     }, {});
   };
+
+  private prepareData(dataset: any) {
+    let preparedData = new Map();
+
+    Object.entries(dataset).map(([field, value]) => {
+      let fieldValues = field.split(':')
+      let year = fieldValues.shift()
+      let code = ([...new Set(fieldValues)] || []).join('')
+      let innerMap = preparedData.get(year);
+      if (!innerMap) {
+        preparedData.set(year, new Map().set(code, value));
+      } else {
+        innerMap.set(code, value)
+      }
+    })
+
+    // preparedData Map(year, Map(code, value)). конвертируем в объект (можно оставить и мапой)
+    return Array.from(preparedData).reduce((main, [key, value]) => ({...main, [key]: Object.fromEntries(value)}), {})
+  }
 }
